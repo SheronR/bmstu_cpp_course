@@ -184,4 +184,4 @@ private:
         capacity_ = new_capacity;
     }
 };
-}  // namespace bmstu  
+}  // namespace bmstu
