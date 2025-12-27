@@ -1,10 +1,10 @@
 #pragma once
 
+#include <algorithm>
 #include <exception>
 #include <iostream>
-#include <algorithm>
-#include <utility>
 #include <type_traits>
+#include <utility>
 
 namespace bmstu
 {
@@ -45,8 +45,7 @@ class simple_basic_string
 	}
 
 	/// Конструктор копирования
-	simple_basic_string(const simple_basic_string& other)
-		: size_(other.size_)
+	simple_basic_string(const simple_basic_string& other) : size_(other.size_)
 	{
 		ptr_ = new T[size_ + 1];
 		std::copy(other.ptr_, other.ptr_ + size_ + 1, ptr_);
@@ -61,10 +60,7 @@ class simple_basic_string
 	}
 
 	/// Деструктор
-	~simple_basic_string()
-	{
-		clean_();
-	}
+	~simple_basic_string() { clean_(); }
 
 	/// Геттер на си-строку
 	const T* c_str() const { return ptr_ ? ptr_ : empty_str(); }
@@ -81,8 +77,9 @@ class simple_basic_string
 			clean_();
 			ptr_ = other.ptr_;
 			size_ = other.size_;
-			
-			// Важно: после перемещения other должен оставаться в валидном состоянии
+
+			// Важно: после перемещения other должен оставаться в валидном
+			// состоянии
 			other.ptr_ = new T[1]{0};
 			other.size_ = 0;
 		}
@@ -98,7 +95,7 @@ class simple_basic_string
 			T* new_ptr = new T[new_size + 1];
 			std::copy(c_str, c_str + new_size, new_ptr);
 			new_ptr[new_size] = 0;
-			
+
 			clean_();
 			ptr_ = new_ptr;
 			size_ = new_size;
@@ -113,7 +110,7 @@ class simple_basic_string
 		{
 			T* new_ptr = new T[other.size_ + 1];
 			std::copy(other.ptr_, other.ptr_ + other.size_ + 1, new_ptr);
-			
+
 			clean_();
 			ptr_ = new_ptr;
 			size_ = other.size_;
@@ -128,7 +125,8 @@ class simple_basic_string
 		result.size_ = left.size_ + right.size_;
 		result.ptr_ = new T[result.size_ + 1];
 		std::copy(left.ptr_, left.ptr_ + left.size_, result.ptr_);
-		std::copy(right.ptr_, right.ptr_ + right.size_, result.ptr_ + left.size_);
+		std::copy(right.ptr_, right.ptr_ + right.size_,
+				  result.ptr_ + left.size_);
 		result.ptr_[result.size_] = 0;
 		return result;
 	}
@@ -151,42 +149,42 @@ class simple_basic_string
 		T buffer[1024];
 		size_t i = 0;
 		T ch;
-		
+
 		// Пробуем прочитать весь поток
 		while (i < 1023)
 		{
 			// Пытаемся получить символ
 			auto c = is.get();
-			
+
 			// Проверяем, удалось ли прочитать
 			if (!is.good())
 			{
 				break;
 			}
-			
+
 			// Если достигли EOF, выходим
 			if (c == std::char_traits<T>::eof())
 			{
 				is.clear();
 				break;
 			}
-			
+
 			ch = static_cast<T>(c);
-			
+
 			// Согласно тестам, мы читаем ВСЕ до конца
 			// Тесты содержат \n в строке, и мы должны его сохранить
 			buffer[i++] = ch;
-			
+
 			// НЕТ прерывания по пробелам или \n!
 			// Мы читаем всю строку, пока не заполним буфер или не достигнем EOF
 		}
-		
+
 		// Завершаем строку
 		buffer[i] = 0;
-		
+
 		// Присваиваем результат
 		obj = buffer;
-		
+
 		return is;
 	}
 
@@ -194,16 +192,16 @@ class simple_basic_string
 	{
 		size_t new_size = size_ + other.size_;
 		T* new_ptr = new T[new_size + 1];
-		
+
 		if (ptr_)
 			std::copy(ptr_, ptr_ + size_, new_ptr);
 		std::copy(other.ptr_, other.ptr_ + other.size_, new_ptr + size_);
 		new_ptr[new_size] = 0;
-		
+
 		clean_();
 		ptr_ = new_ptr;
 		size_ = new_size;
-		
+
 		return *this;
 	}
 
@@ -211,28 +209,22 @@ class simple_basic_string
 	{
 		size_t new_size = size_ + 1;
 		T* new_ptr = new T[new_size + 1];
-		
+
 		if (ptr_)
 			std::copy(ptr_, ptr_ + size_, new_ptr);
 		new_ptr[size_] = symbol;
 		new_ptr[new_size] = 0;
-		
+
 		clean_();
 		ptr_ = new_ptr;
 		size_ = new_size;
-		
+
 		return *this;
 	}
 
-	T& operator[](size_t index) noexcept
-	{
-		return ptr_[index];
-	}
+	T& operator[](size_t index) noexcept { return ptr_[index]; }
 
-	const T& operator[](size_t index) const noexcept
-	{
-		return ptr_[index];
-	}
+	const T& operator[](size_t index) const noexcept { return ptr_[index]; }
 
 	T& at(size_t index)
 	{
@@ -265,10 +257,12 @@ class simple_basic_string
 
 	bool operator==(const simple_basic_string& other) const
 	{
-		if (size_ != other.size_) return false;
+		if (size_ != other.size_)
+			return false;
 		for (size_t i = 0; i < size_; ++i)
 		{
-			if (ptr_[i] != other.ptr_[i]) return false;
+			if (ptr_[i] != other.ptr_[i])
+				return false;
 		}
 		return true;
 	}
@@ -313,9 +307,11 @@ class simple_basic_string
 
 	static size_t strlen_(const T* str)
 	{
-		if (!str) return 0;
+		if (!str)
+			return 0;
 		const T* p = str;
-		while (*p) ++p;
+		while (*p)
+			++p;
 		return p - str;
 	}
 
