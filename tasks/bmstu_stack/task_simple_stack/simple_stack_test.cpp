@@ -325,3 +325,49 @@ TEST(StackTest, CheckBraceSequence)
 	ASSERT_FALSE(checkBraceSequence("())"));
 	ASSERT_FALSE(checkBraceSequence(")("));
 }
+
+// TEST(StackTest, ZachCapacity){
+// 	bmstu::stack<int> s;
+// 	ASSERT_EQ(s.size(), 0);
+// 	ASSERT_EQ(s.capacity(), 0);
+
+
+
+// 	s.push(666);
+// 	ASSERT_EQ(s.size(), 1);
+// 	ASSERT_EQ(s.capacity(), 1);
+	
+// 	s.push(666);
+	
+	
+// 	ASSERT_EQ(s.size(), 2);
+// 	ASSERT_EQ(s.capacity(), 2);
+
+
+// 	s.push(666);
+// 	ASSERT_EQ(s.size(), 3);
+// 	ASSERT_EQ(s.capacity(), 3);
+// 	int* pervyadres = &s.top();
+
+// 	s.pop();
+// 	ASSERT_EQ(s.size(), 2);
+// 	ASSERT_EQ(s.capacity(), 3);
+
+// 	s.push(666);
+// 	ASSERT_EQ(s.size(), 3);
+// 	ASSERT_EQ(s.capacity(), 3);
+// 	int* vtotyadres = &s.top();
+
+// 	ASSERT_EQ(pervyadres, vtotyadres);
+
+// }
+
+
+TEST(StackTest, TopIsRef){
+	bmstu::stack<int> s;
+
+	s.push(666);
+
+	s.top() = 111;
+	ASSERT_EQ(s.top(), 111);
+}

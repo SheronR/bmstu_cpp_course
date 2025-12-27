@@ -14,6 +14,9 @@ template <typename T>
 class stack
 {
    public:
+   size_t capacity() const noexcept{
+	return capacity_;
+   }
 	stack() : data_(nullptr), size_(0), capacity_(0) {}
 
 	explicit stack(size_t capacity) : data_(nullptr), size_(0), capacity_(0)
