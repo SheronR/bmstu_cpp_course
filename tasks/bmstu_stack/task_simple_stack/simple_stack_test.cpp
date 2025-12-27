@@ -331,18 +331,14 @@ TEST(StackTest, CheckBraceSequence)
 // 	ASSERT_EQ(s.size(), 0);
 // 	ASSERT_EQ(s.capacity(), 0);
 
-
-
 // 	s.push(666);
 // 	ASSERT_EQ(s.size(), 1);
 // 	ASSERT_EQ(s.capacity(), 1);
-	
+
 // 	s.push(666);
-	
-	
+
 // 	ASSERT_EQ(s.size(), 2);
 // 	ASSERT_EQ(s.capacity(), 2);
-
 
 // 	s.push(666);
 // 	ASSERT_EQ(s.size(), 3);
@@ -362,12 +358,11 @@ TEST(StackTest, CheckBraceSequence)
 
 // }
 
-
-//TEST(StackTest, TopIsRef){
+// TEST(StackTest, TopIsRef){
 //	bmstu::stack<int> s;
 //
 //	s.push(666);
 //
 //	s.top() = 111;
 //	ASSERT_EQ(s.top(), 111);
-//}
+// }
